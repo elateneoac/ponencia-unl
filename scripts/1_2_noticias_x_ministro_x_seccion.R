@@ -10,7 +10,7 @@ library(treemap)
 # 1. General
 paleta = 'Dark2'
 
-path_data = '' # path a la carpeta 'ponencia-unl/data'
+path_data = '~/repos/ponencia-unl/data' # path a la carpeta 'ponencia-unl/data'
 
 notis = fread(paste0(path_data,'/notis_filtradas.csv'))
 
@@ -79,10 +79,9 @@ ggplot(conteo_ministros[categoria %in% c('Economía', 'Política', 'Sociedad', '
   geom_point(aes(colour = diario),
              position = position_dodge(width = 0.6), size=1, alpha=1) +
   coord_flip() +
-  labs(title = "Noticias por ministro para cada diario y cada categoria", x = "", y = "Cantidad de noticias") + 
+  labs(title = "¿Ministrxs más mencionadxs? Septiembre 2020 ~ Marzo 2021", x = "", y = "Cantidad de noticias") + 
   theme_pander(nomargin = F) +
   scale_y_continuous(n.breaks = 3) + 
   scale_color_manual(values = c('red', 'orange', 'darkcyan')) + 
   facet_grid(~categoria)
-
-# ggsave(filename = '~/Documentos/ponencia-ateneo/dibujos/1_2_noticias_ministro_diario_seccion.jpeg')
+ggsave(filename = '~/Documentos/ponencia-ateneo/dibujos/1_2_noticias_ministro_diario_seccion.jpeg')

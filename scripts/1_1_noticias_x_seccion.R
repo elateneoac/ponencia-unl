@@ -33,7 +33,7 @@ ggplot(notis_1_1, aes(x = reorder(cat,n), y = n), colour = 'red') +
   facet_grid(~diario) + 
   theme_pander(nomargin = F) +
   scale_y_continuous(n.breaks = 5) + 
-  labs(title = "Noticias por sección para cada diario", x = "", y = "Cantidad de noticias") +
+  labs(title = "¿Secciones con más menciones a ministrxs?", x = "", y = "Cantidad de noticias") +
   coord_flip()
 
 #ggsave(filename = '~/Documentos/ponencia-ateneo/dibujos/1_1_noticias_diario_seccion.jpeg')
