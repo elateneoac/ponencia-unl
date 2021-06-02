@@ -1,8 +1,10 @@
 library(data.table)
 library(stringr)
 
+# levanto oraciones preprocesadas
 oraciones = fread('~/Documentos/ponencia-ateneo/oraciones.csv')[diario %in% c('lanacion', 'clarin', 'infobae'), ]
 
+# levanto las bolsas de palabras de los atributos y las junto cada una en una expresion regulares para dsp calcular la distancias de jaccard.
 bolsa_etica = fread('~/Documentos/ponencia-ateneo/bolsa_etica.csv')[`bolsa?` == 'si', palabras]
 regex_etica = str_c(bolsa_etica, collapse='|')
 
@@ -21,23 +23,32 @@ regex_positiva = str_c(bolsa_positiva, collapse='|')
 bolsa_negativa = fread('~/Documentos/ponencia-ateneo/bolsa_negativa.txt',header = F)[, V1]
 regex_negativa = str_c(bolsa_negativa, collapse='|')
 
+## calculo distancia de jaccard para cada atributo
+
+# primero cuento la cantidad total de terminos
 oraciones[, terminos := str_c(sustantivos, adjetivos, verbos, sep=',')]
 
+# distancia a 'etica'
 oraciones[, etica := str_count(terminos, regex_etica)]
 oraciones[, etica := etica / (str_count(terminos, '[^,],[^,]') + 1 + str_count(regex_etica, '\\|') + 1 - etica)]
 
+# distancia a 'gestion'
 oraciones[, gestion := str_count(terminos, regex_gestion)]
 oraciones[, gestion := gestion / (str_count(terminos, '[^,],[^,]') + 1 + str_count(regex_gestion, '\\|') + 1 - gestion)]
 
+# distancia a 'ideologia'
 oraciones[, ideologia := str_count(terminos, regex_ideologia)]
 oraciones[, ideologia := ideologia / (str_count(terminos, '[^,],[^,]') + 1 + str_count(regex_ideologia, '\\|') + 1 - ideologia)]
 
+# distancia a 'personalidad'
 oraciones[, personalidad := str_count(terminos, regex_personalidad)]
 oraciones[, personalidad := personalidad / (str_count(terminos, '[^,],[^,]') + 1 + str_count(regex_personalidad, '\\|') + 1 - personalidad)]
 
+# distancia a 'positiva'
 oraciones[, positiva := str_count(terminos, regex_positiva)]
 oraciones[, positiva := positiva / (str_count(terminos, '[^,],[^,]') + 1 + str_count(regex_positiva, '\\|') + 1 - positiva)]
 
+# distancia a 'negativa'
 oraciones[, negativa := str_count(terminos, regex_negativa)]
 oraciones[, negativa := negativa / (str_count(terminos, '[^,],[^,]') + 1 + str_count(regex_negativa, '\\|') + 1 - negativa)]
 
