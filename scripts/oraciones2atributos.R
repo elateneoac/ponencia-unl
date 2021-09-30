@@ -29,8 +29,8 @@ regex_negativa = str_c(bolsa_negativa, collapse='|')
 oraciones[, terminos := str_c(sustantivos, adjetivos, verbos, sep=',')]
 
 # distancia a 'etica'
-oraciones[, etica := str_count(terminos, regex_etica)]
-oraciones[, etica := etica / (str_count(terminos, '[^,],[^,]') + 1 + str_count(regex_etica, '\\|') + 1 - etica)]
+oraciones[, etica := str_count(terminos, regex_etica)] # interseccion
+oraciones[, etica := etica / (str_count(terminos, '[^,],[^,]') + 1 + str_count(regex_etica, '\\|') + 1 - etica)] # interseccion / union
 
 # distancia a 'gestion'
 oraciones[, gestion := str_count(terminos, regex_gestion)]
